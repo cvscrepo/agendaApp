@@ -27,9 +27,19 @@ export const createAppointment = async (appointmentData) => {
 };
 
 // Editar una cita existente
-export const updateAppointment = async (id, appointmentData) => {
+export const updateAppointment = async (appointmentData) => {
     try {
-        const response = await api.put(`/Appointment/${id}`, appointmentData);
+        const objToEdit = {
+            idAppointment: appointmentData.event_id,
+            nameAppointment: appointmentData.title,
+            firstNameClient: appointmentData.firstNameClient,
+            lastName: appointmentData.lastNameClient,
+            idServicio: appointmentData.service_id,
+            startDate: appointmentData.start,
+            endDate: appointmentData.end,
+            phone: appointmentData.phone
+        }
+        const response = await api.put(`/Appointment`, objToEdit);
         return response.data;
     } catch (error) {
         console.error("Error updating appointment:", error);

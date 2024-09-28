@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Scheduler } from '@aldabil/react-scheduler'
-import { getAppointments, createAppointment } from '../../services/appointmentService';
+import { getAppointments, createAppointment, updateAppointment } from '../../services/appointmentService';
 import { getServices } from '../../services/servicesService';
 import { useSnackbar } from '../../utils/AlertSnackBar';
 import { ca } from 'date-fns/locale';
@@ -58,8 +58,11 @@ export default function CalendaScheduler() {
         //  hacer una llamada a un servicio API para crear o editar el evento
         if (action === "edit") {
             console.log("Edit Event", event);
-            // Llama a tu servicio de edición
-            await editEventService(event);
+            await updateAppointment(event).then(() => {
+                handleClick("Appointment updated successfully");
+            }).catch(() => {
+                handleClick("Error updating appointment");
+            });
         } else if (action === "create") {
             console.log("Create Event", event);
             //Se crea el evento
